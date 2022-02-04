@@ -51,30 +51,40 @@ Hint: You will need to use `case_when` to make this work.
 **A1** [write your answer here]
 
 ```{r}
-# Write the code to produce your answer here
-
+#casewhenexample
 west_virginia_ppp %>%
-  mutate(
-    loancategory = case_when(
-      amount < 10000 ~ 'under_10k',
-      amount >= 10000 & amount < 50000 ~ '10k-50k',
-      amount >= 50000 & amount < 100000 ~ '50k-100k',
-      amount>= 100000 & amount< 250000 ~ '100k to 500k',
-      amount >= 1000000 & amount > 1000000 ~ '1m plus'
-    ))
+mutate(
+loancategory = case_when (
+amount < 10000 ~ 'under_10k',
+amount >= 10000 & amount < 50000 ~ '10k-50k',
+amount >= 50000 & amount < 100000 ~ '50k-100k',
+amount>= 100000 & amount< 500000 ~ '100k to 500k',
+amount>= 500000 & amount< 1000000 ~ '500k to 1000000m',
+amount >= 1000000 & amount > 1000000 ~ '1m plus'
+    ))%>%
+group_by(loancategory) %>%
+  summarise(total = n()) %>%
+  arrange(desc(total))
+
+
 
 ```
 
 **Q2** Some of the loans appear not to have been paid out - there is a column representing the amount of money that hasn't been disbursed to the applicant. Which servicing lenders have the most loans with undisbursed amounts greater than 0?
-**A2** [write your answer here]
+**A2** Davis Trust Company
 
 ```{r}
+west_virginia_ppp %>%
+filter(undisbursed_amount > 0)%>%
+group_by(servicing_lender_name) %>%
+  summarise(total = n()) %>%
+  arrange(desc(total))
 
 
 ```
 
 **Q3** What are some potential reasons why a loan might not be paid out? What questions does that circumstance raise for you?
-**A3** [write your answer here]
+**A3** Some potential reasons could be an error was found in a person's application. It could have been an administrate thing or the person may have found lying on an application. The questions thay would raise for me would be, who is Davis Trust Company?, what were their answers were on the application(s) and how truthful were those answers.
 
 
 **Q4** Which month in 2021 had the most loans approved?
@@ -93,6 +103,11 @@ west_virginia_ppp %>%
 **A5** [write your answer here]
 
 ```{r}
+west_virginia_ppp
+mutate = case_when (
+amount < 10000 ~ 'under_10k',
+amount >= 10000 & amount < 50000 ~ '10k-50k',
+
 # Write the code to produce your answer here
 
 ```
