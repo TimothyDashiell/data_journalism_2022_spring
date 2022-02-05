@@ -48,7 +48,7 @@ west_virginia_ppp <- read_rds("data/lab_02.rds")
 
 **Q1** Create a new column that divides the loan amounts into the following options - under_10k, 10k_50k, 50k_100k, 100k_500k, 500k_1m, 1m_plus - and calculates how many loans are in each group. How would you describe the distribution of loans in a sentence?
 Hint: You will need to use `case_when` to make this work.
-**A1** [write your answer here]
+**A1** Basesd on the data, most of these loans distributed are on the small side (10k-50k). There are relativity few that are on the bigger side of 1m plus.
 
 ```{r}
 #casewhenexample
@@ -71,7 +71,7 @@ group_by(loancategory) %>%
 ```
 
 **Q2** Some of the loans appear not to have been paid out - there is a column representing the amount of money that hasn't been disbursed to the applicant. Which servicing lenders have the most loans with undisbursed amounts greater than 0?
-**A2** Davis Trust Company
+**A2** Davis Trust Company with 12 
 
 ```{r}
 west_virginia_ppp %>%
@@ -84,11 +84,10 @@ group_by(servicing_lender_name) %>%
 ```
 
 **Q3** What are some potential reasons why a loan might not be paid out? What questions does that circumstance raise for you?
-**A3** Some potential reasons could be an error was found in a person's application. It could have been an administrate thing or the person may have found lying on an application. The questions thay would raise for me would be, who is Davis Trust Company?, what were their answers were on the application(s) and how truthful were those answers.
-
+**A3** A reason could be that there was some sort of error with the application. I would have questions as to what caused the error (potential lying on the application), and if they were untruthful, what parts of the application were they untruthful about (Race? # of employees?) and why?
 
 **Q4** Which month in 2021 had the most loans approved?
-**A4** March
+**A4** March 2021
 
 ```{r}
 west_virginia_ppp %>%
@@ -100,14 +99,14 @@ west_virginia_ppp %>%
 ```
 
 **Q5** How many loans went to West Virginia applicants that listed the maximum number of jobs retained (500)? Which one had the earliest approved date?
-**A5** [write your answer here]
+**A5** 
 
 ```{r}
-west_virginia_ppp
-mutate = case_when (
-amount < 10000 ~ 'under_10k',
-amount >= 10000 & amount < 50000 ~ '10k-50k',
-
-# Write the code to produce your answer here
-
+west_virginia_ppp %>%
+filter(state == "WV")%>%
+group_by (jobs_retained <=500)%>%
+group_by(date_appproved) %>%
+summarise(total = n()) %>%
+arrange(desc(total))
 ```
+
