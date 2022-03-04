@@ -1,0 +1,130 @@
+title: "Reverse Engineering Project"
+author: "Devon Milley Timothy Dashiell Emmett Gartner"
+date: "Date here"
+output:
+  html_document:
+    theme: cerulean
+    highlight: pygments
+    toc: true
+    toc_float:
+      collapsed: true
+      smooth_scroll: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction 
+
+In this notebook, we are reverse engineering the story, L.A. is slammed with record costs for legal payouts  (https://www.latimes.com/local/lanow/la-me-ln-city-payouts-20180627-story.html)
+
+## Load libraries
+
+Loading required libraries for this analysis.
+
+```{r echo=FALSE, message=FALSE}
+install.packages("tidyverse")
+options(scipen=999)
+install.packages("janitor")
+library(tidyverse)
+
+```
+
+## Load and Cleaning Data
+
+In this section, describe the source of the data, write a basic data dictionary for data you are working with, and discuss any caveats or issues you discovered working with this data. 
+
+```{r}
+# Load required data
+
+la_payouts <- read.csv("data/la_city_legal_payouts.csv")
+View(la_payouts)
+
+# Clean required data and prepare for analysis if needed. 
+
+la_payouts <- la_payouts %>% mutate(AMOUNT=as.numeric(parse_number(AMOUNT)))
+
+#sum payouts for 2018
+
+la_payouts%>%
+  group_by(Year)%>%
+    summarize(
+    count = n(),
+    total = sum(AMOUNT))
+
+```
+
+## Sentences to Engineer
+In this notebook, we are reverse engineering five sentences from the story.
+
+### Sentence 1
+
+* **Sentence text**: “Last budget year, the total for all types of payouts reached $201 million — the highest on record — but city officials are unsure whether that is the largest amount because records go back only two decades.”
+
+* **General steps to reverse engineer**: 
+1. Downloaded an excel sheet of all LA City Payouts between 2006-2018 from LA Times Github, deleted extraneous titles that could get in the way when converted to .csv.
+2. Converted the file to a .csv.
+3. Removed the /$ from the amount field.
+4. Converted the amount field to a numeric datatype.
+5. Grouped cases by year, summarized total payout amounts for each year.
+
+
+* **Analysis summary**: [Write up two to three sentences describing the results of your analysis.  Were you able to confirm the finding? If not, why not?]
+
+```{r}
+# Put code to reverse engineer sentence here
+
+# Display results of code below this codeblock
+
+```
+
+### Sentence 2
+
+* **Sentence text**: [Paste in sentence to engineer here]
+* **Analysis summary**: [Write up two to three sentences describing the results of your analysis.  Were you able to confirm the finding? If not, why not?]
+
+```{r}
+# Put code to reverse engineer sentence here
+
+# Display results of code below this codeblock
+
+```
+
+### Sentence 3
+
+* **Sentence text**: [Paste in sentence to engineer here]
+* **Analysis summary**: [Write up two to three sentences describing the results of your analysis.  Were you able to confirm the finding? If not, why not?]
+
+```{r}
+# Put code to reverse engineer sentence here
+
+# Display results of code below this codeblock
+
+```
+
+### Sentence 4
+
+* **Sentence text**: [Paste in sentence to engineer here]
+* **Analysis summary**: [Write up two to three sentences describing the results of your analysis.  Were you able to confirm the finding? If not, why not?]
+
+```{r}
+# Put code to reverse engineer sentence here
+
+# Display results of code below this codeblock
+
+```
+
+### Sentence 5
+
+* **Sentence text**: [Paste in sentence to engineer here]
+* **Analysis summary**: [Write up two to three sentences describing the results of your analysis.  Were you able to confirm the finding? If not, why not?]
+
+```{r}
+# Put code to reverse engineer sentence here
+
+# Display results of code below this codeblock
+
+```
+
+-30-
