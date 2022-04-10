@@ -17,7 +17,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 library(tidyverse)
-library(tidycensus)
+
 WV<-read_rds ("data/lab_09.rds")
 
 ```
