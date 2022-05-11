@@ -87,7 +87,7 @@ summarise(
 
 **Q2.** Write R code that examines geographic patterns for PPP loans in your state, using Census population information to calculate a per-capita figure for the state and counties and zip codes. Then, make a county map using ggplot showing the per-capita data and a zip code map showing the difference from the statewide per-capita figure. Describe the most interesting or newsworthy findings based on your exploration.
 
-**A2.** Based on my findings and my maps, something I found interesting was 
+**A2.** Based on my findings and my maps, something I found interesting was that the highest sum of loans per captia are in two majority Black communities in Fulton County (which is the county Atlanta is in) and Gwinettt which just so happens to be the next county over. From there I would go and examine what type of businesses in these counties are getting these loans. 
 ```{r}
 census_api_key("345627e34ea9a9b71a57fc18e42a0165dbcc7785")
 ```
@@ -189,23 +189,23 @@ Ziploanspercapita <- GeorgiaZIPPOP %>%
 ```{r}
 counties <- counties() 
 GACounty <- counties %>%
-  filter(STATEFP == "41")
+  filter(STATEFP == "13")
 ggplot() + 
   geom_sf(data=GACounty)+ 
+  geom_sf(data=Countyloanspercapita, aes(fill=sum_loans_per_capita)) + 
+  geom_sf(data=Countyloanspercapita, aes(fill=sum_loans_per_capita, geometry=geometry))
+  theme_minimal()+  scale_fill_viridis_b(option="magma",trans = "log")
 
-  geom_sf(data=Countyloanspercapita, aes(fill=sum_loans_per_capita)) +geometry=TRUE
-  theme_minimal()+
-  scale_fill_viridis_b(option="magma",trans = "log")
 ```
 
 #Zip Map
 ```{r}
 counties <- counties() 
 GAZIP <- counties %>%
-  filter(STATEFP == "41")
+  filter(STATEFP == "13")
 ggplot() + 
   geom_sf(data=GAZIP)+ 
-  geom_sf(data=Ziploanspercapita, aes(fill=loans_per_capita)) + 
+  geom_sf(data=Ziploanspercapita, aes(fill=loans_per_capita,geometry=geometry)) + 
   theme_minimal()+
   scale_fill_viridis_b(option="magma",trans = "log")
 
@@ -258,7 +258,7 @@ Create a county-level map showing the differences between the PPP applications a
 
 
 ```{r}
-cbp19<-read_csv('cbp19co.txt')
+cbp19<-read_csv('cbp19co.csv')
 cbp19 <- cbp19 %>% mutate(fips_code = str_c(fipstate, fipscty))%>%
   filter(fipstate==13)%>%
   select(naics, est, fips_code)
@@ -325,7 +325,4 @@ CBP19GAPPP <- GAPPPwithNaics %>%  inner_join(cbp19, by="naics", "fips_code")%>%
 
 **Q5.** What is the most promising story idea that you have found during this exploration? How would you approach reporting it out and what other information/data would you need to do that? What would be the minimum story you could get from this, and what would be the maximum story?
 
-restaurant_census_biz_or <-no_sp_census_biz_or_ppp%>%
-  filter(title=="Full-Service Restaurants")%>%
-  mutate(dif_w_census=total_loans-est)
-**A5.**
+**A5.** I think the story I would attack is how PPP loans were largely distributed to small businesses in Black communities and compare that to other black communities in America. In multiple Black counties in Georgia, beauty salons and barbershops were given the most money in loans and the highest number of loans. Someone could research and find similar data on which industries got the most and highest loans in other black communities (Detroit, Baltimore, Philly) and compare. Were Barbershops and beauty salons hit hard by COVID in EVERY  majority black community, is it a Georgia only thing? A down south thing? etc. I think using the data there's a story there and we could find the types of businesses that are the backbone of these black communities and examine how hard they were hit by COVID based on PPP loan data.
